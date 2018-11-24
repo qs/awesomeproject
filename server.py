@@ -36,6 +36,46 @@ mongo.db.users.insert({
     "wishlist": [12312312, 124123123, 1231234123]
 })
 
+mongo.db.fridge.insert({
+    "fridge_id": "ivan",
+    "availability": {
+        "from_hours": 10,
+        "to_hours": 14
+    },
+    "location": [60.179517, 24.812197],
+    "products": [
+        {"4001724819608": {
+            "amount": 2,
+            "exp_date": "21-12-2018"
+        }},
+        {"6411402202208": {
+            "amount": 1,
+            "exp_date": "26-11-2018"
+        }}
+
+    ]
+})
+
+mongo.db.fridge.insert({
+    "fridge_id": "johannes",
+    "availability": {
+        "from_hours": 14,
+        "to_hours": 21
+    },
+    "location": [59.179517, 28.812197],
+    "products": [
+        {"6411402202208": {
+            "amount": 1,
+            "exp_date": "21-12-2018"
+        }},
+        {"6416046654123": {
+            "amount": 1,
+            "exp_date": "26-11-2018"
+        }}
+
+    ]
+})
+
 
 @app.route("/add_user", methods=["POST"])
 def add_user():
