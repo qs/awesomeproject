@@ -102,7 +102,7 @@ def update_wish_list():
 
 @app.route("/get-wish-list")
 def get_wish_list():
-    username = request.data.get("username")
+    username = request.args.get("username")
     data = mongo.db.users.find_one({"username": username})
     del data["_id"]
     return data, status.HTTP_200_OK
