@@ -26,7 +26,19 @@ class Suggestions:
         return self.ranked_suggestions(suggerstions, user_preferences)
 
     def get_borrow_suggestions(self, product_ean, amount):
-        return []
+        sugges = []
+        for fridge in self.db.fridge.find():
+            for product, properties in fridge["products"].items():
+                if product == product_ean and properties["amount"] >= amount:
+                    sugges.append({
+                        "type": "borrow",
+                        "location": fridge["location"],
+                        "availability": fridge["availability"]["from_hours"] + " to " + fridge["availability"]["to_hours"],
+                        "description": properties["description"],
+                        "image": properties["image"]
+
+                    })
+        return sugges
 
     def get_replace_suggestions(self, product_ean):
         # should actually go to the kesko database and smartly compare which products are similar and healthier
