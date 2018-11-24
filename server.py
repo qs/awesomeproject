@@ -15,6 +15,7 @@ mongo = PyMongo(app)
 suggestions = Suggestions(mongo.db)
 
 mongo.db.users.delete_many({})
+mongo.db.fridge.delete_many({})
 
 mongo.db.users.insert({
     "username": "ivan",
