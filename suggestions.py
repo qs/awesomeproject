@@ -1,5 +1,6 @@
 from collections import OrderedDict
 
+
 class Suggestions:
     def __init__(self, db):
         self.db = db
@@ -23,14 +24,9 @@ class Suggestions:
             suggerstions += {product_ean:
                              self.get_borrow_suggestions(product_ean, amount)}
             suggerstions += self.get_replace_suggestions(product_ean)
-<<<<<<< HEAD
-            suggerstions += self.get_coop_suggestions(
-                username, product_ean, amount)
-        return self.ranked_suggestions(suggerstions)
-=======
-            suggerstions += self.get_coop_suggestions(product_ean, amount)
+            suggerstions += {product_ean:
+                             self.get_coop_suggestions(product_ean, amount)}
         return self.ranked_suggestions(suggerstions, user_preferences)
->>>>>>> b1775486606fa1a4fa8824d4b898311f84472e9b
 
     def get_borrow_suggestions(self, product_ean, amount):
         sugges = []
@@ -55,15 +51,18 @@ class Suggestions:
 
     def get_coop_suggestions(self, username, product_ean, amount):
         friends = self.db.users.find_one({"username": username})["friends"]
+        friends_who_have = []
         for friend in friends:
             friend_wishlist = self.db.users.find_one(
                 {"username": friend})["wishlist"]
             if product_ean in friend_wishlist:
-                pass
-        return []
+                friends_who_have.append(friend)
+
+        return {"type": "coop", "friends": friends_who_have}
 
     def ranked_suggestions(self, suggerstions, user_preferences):
-        pref_lookup = {'cheap': 'coop', 'sustainability': 'replace', 'comfort': 'borrow'}
+        pref_lookup = {'cheap': 'coop',
+                       'sustainability': 'replace', 'comfort': 'borrow'}
         result_suggestions = OrderedDict()
         for suggerstion in suggerstions:
             pass
