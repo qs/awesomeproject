@@ -69,7 +69,8 @@ def get_wish_list():
 @app.route("/get_suggestion")
 def get_suggestion():
     user = request.data.get("username")
-
+    x = request.data.get("x_loc")
+    y = request.data.get("y_loc")
     data = mongo.db.users.find({"username": user})
     # get preferences from db
     preference = "cheaper"
