@@ -21,6 +21,10 @@ class Suggestions:
         """
         suggerstions = []
         for product_ean, amount in grocery_list.items():
+            suggerstions += self.get_borrow_suggestions(product_ean, amount)
+            suggerstions += self.get_replace_suggestions(product_ean)
+            suggerstions += self.get_coop_suggestions(username, product_ean, amount)
+
             suggerstions += [
                 {product_ean: self.get_borrow_suggestions(product_ean, amount)}]
             suggerstions += self.get_replace_suggestions(product_ean)
@@ -44,7 +48,7 @@ class Suggestions:
                         "image": properties["image"]
 
                     })
-        return sugges
+        return [{product_ean: i} for i in sugges]
 
     def get_replace_suggestions(self, product_ean):
         # should actually go to the kesko database and smartly compare which products are similar and healthier
@@ -53,18 +57,14 @@ class Suggestions:
         return []
 
     def get_coop_suggestions(self, username, product_ean, amount):
-        friends = [user["username"] for user in self.db.users.find()]
-        friends_who_have = []
-        for friend in friends:
-            friend_wishlist = self.db.users.find_one(
-                {"username": friend})["wishlist"]
-            if product_ean in friend_wishlist:
-                friends_who_have.append(friend)
-        try:
-            friends_who_have.remove(username)
-        except ValueError:
-            pass  # do nothing!
-        return {"type": "coop", "friends": friends_who_have}
+        friends = [user for user in self.db.users.find()]
+        friends_to_buy_the_same = []
+        for user in friends:
+            if product_ean in user["wishlist"]:
+                friends_to_buy_the_same.append(user['username'])
+        if friends_to_buy_the_same:
+            return [{product_ean: {"type": "coop", "friends": friends_to_buy_the_same}}]
+        return []
 
     def ranked_suggestions(self, suggerstions, user_preferences):
         pref_lookup = {'coop': 'cheap', 'replace': 'sustainability', 'borrow': 'comfort'}
