@@ -67,9 +67,8 @@ class Suggestions:
         return {"type": "coop", "friends": friends_who_have}
 
     def ranked_suggestions(self, suggerstions, user_preferences):
-        pref_lookup = {'cheap': 'coop',
-                       'sustainability': 'replace', 'comfort': 'borrow'}
+        pref_lookup = {'coop': 'cheap', 'replace': 'sustainability', 'borrow': 'comfort'}
         result_suggestions = OrderedDict()
         for suggerstion in suggerstions:
-            pass
+            pass #if product_ean in suggerstions :
         return OrderedDict()

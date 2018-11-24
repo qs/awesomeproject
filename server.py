@@ -9,6 +9,12 @@ from suggestions import Suggestions
 database = {}
 
 
+'''
+"7311311015304": {"type": "borrow", "location": "Some address", "availability": "6pm-10pm every day", "description": "details from the fridge keeper", "photo": "http://url"},
+"6410405082657": {"type": "replace", "product_ean": "6410405113153"},
+"6408641027488": {"type": "coop", "friends": ["friend1", "friend2", "friend3"]}
+'''
+
 app = FlaskAPI(__name__)
 app.config["MONGO_URI"] = "mongodb://awesome1:awesome1@ds063789.mlab.com:63789/awesomeproject"
 mongo = PyMongo(app)
@@ -24,7 +30,7 @@ mongo.db.users.insert({
         "sustainability": 0.2,
         "comfort": 3
     },
-    "wishlist": ["12312312", "124123123", "1231234123"]
+    "wishlist": ["7311311015304", "6410405082657", "6408641027488"]
 })
 
 mongo.db.users.insert({
@@ -34,7 +40,7 @@ mongo.db.users.insert({
         "sustainability": 0.2,
         "comfort": 3
     },
-    "wishlist": ["12312312", "124123123", "1231234123"]
+    "wishlist": ["6410405082657", "6408641027488"]
 })
 
 mongo.db.fridge.insert({
