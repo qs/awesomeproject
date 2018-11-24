@@ -124,14 +124,14 @@ def get_wish_list():
     return data, status.HTTP_200_OK
 
 
-@app.route("/get_suggestion")
+@app.route("/get_suggestion", methods=["POST", "GET"])
 def get_suggestion():
     user = request.data.get("username")
     grocery_list = request.data.get("grocery_list")
     x = request.data.get("x_loc")
     y = request.data.get("y_loc")
-    user_data = mongo.db.users.find({"username": user})
-    return suggestions.get_ranked_suggestions(user_data['preferences'], grocery_list, (x, y)), status.HTTP_200_OK
+    user_data = mongo.db.users.find_one({"username": user})
+    return suggestions.get_ranked_suggestions(user, user_data['preferences'], grocery_list, (x, y)), status.HTTP_200_OK
 
 
 if __name__ == "__main__":

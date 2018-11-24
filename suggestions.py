@@ -25,7 +25,7 @@ class Suggestions:
                 {product_ean: self.get_borrow_suggestions(product_ean, amount)}]
             suggerstions += self.get_replace_suggestions(product_ean)
             suggerstions += [{product_ean:
-                              self.get_coop_suggestions(product_ean, amount)}]
+                              self.get_coop_suggestions(username, product_ean, amount)}]
         return self.ranked_suggestions(suggerstions, user_preferences)
 
     def get_borrow_suggestions(self, product_ean, amount):
@@ -70,5 +70,8 @@ class Suggestions:
         pref_lookup = {'coop': 'cheap', 'replace': 'sustainability', 'borrow': 'comfort'}
         result_suggestions = OrderedDict()
         for suggerstion in suggerstions:
-            pass #if product_ean in suggerstions :
-        return OrderedDict()
+            for k, v in suggerstion.items():
+                if v and k not in result_suggestions:
+                    result_suggestions[k] = v
+        print(result_suggestions)
+        return result_suggestions
