@@ -1,6 +1,11 @@
+from collections import OrderedDict
+
 class Suggestions:
     def __init__(self, db):
         self.db = db
+        self.healthy_replacements = {
+            '6410405082657': '6410405113153'
+        }
 
     def get_ranked_suggestions(self, user_preferences, grocery_list, geolocation):
         """
@@ -18,16 +23,23 @@ class Suggestions:
             suggerstions += self.get_borrow_suggestions(product_ean, amount)
             suggerstions += self.get_replace_suggestions(product_ean)
             suggerstions += self.get_coop_suggestions(product_ean, amount)
-        return self.ranked_suggestions(suggerstions)
+        return self.ranked_suggestions(suggerstions, user_preferences)
 
     def get_borrow_suggestions(self, product_ean, amount):
         return []
 
     def get_replace_suggestions(self, product_ean):
+        # should actually go to the kesko database and smartly compare which products are similar and healthier
+        if product_ean in self.healthy_replacements:
+            return [{product_ean: {'type': 'replace', 'product_ean': self.healthy_replacements[product_ean]}}]
         return []
 
     def get_coop_suggestions(self, product_ean, amount):
         return []
 
-    def ranked_suggestions(self, suggerstions):
-        return []
+    def ranked_suggestions(self, suggerstions, user_preferences):
+        pref_lookup = {'cheap': 'coop', 'sustainability': 'replace', 'comfort': 'borrow'}
+        result_suggestions = OrderedDict()
+        for suggerstion in suggerstions:
+            pass
+        return OrderedDict()
