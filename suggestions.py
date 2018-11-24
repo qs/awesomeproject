@@ -21,11 +21,11 @@ class Suggestions:
         """
         suggerstions = []
         for product_ean, amount in grocery_list.items():
-            suggerstions += {product_ean:
-                             self.get_borrow_suggestions(product_ean, amount)}
+            suggerstions += [
+                {product_ean: self.get_borrow_suggestions(product_ean, amount)}]
             suggerstions += self.get_replace_suggestions(product_ean)
-            suggerstions += {product_ean:
-                             self.get_coop_suggestions(product_ean, amount)}
+            suggerstions += [{product_ean:
+                              self.get_coop_suggestions(product_ean, amount)}]
         return self.ranked_suggestions(suggerstions, user_preferences)
 
     def get_borrow_suggestions(self, product_ean, amount):
