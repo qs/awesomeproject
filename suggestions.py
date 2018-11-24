@@ -31,12 +31,15 @@ class Suggestions:
     def get_borrow_suggestions(self, product_ean, amount):
         sugges = []
         for fridge in self.db.fridge.find():
-            for product, properties in fridge["products"].items():
+            for product_dict in fridge["products"]:
+                product = list(product_dict.keys())[0]
+                properties = list(product_dict.values())[0]
+                print(properties)
                 if product == product_ean and properties["amount"] >= amount:
                     sugges.append({
                         "type": "borrow",
                         "location": fridge["location"],
-                        "availability": fridge["availability"]["from_hours"] + " to " + fridge["availability"]["to_hours"],
+                        "availability": str(fridge["availability"]["from_hours"]) + " to " + str(fridge["availability"]["to_hours"]),
                         "description": properties["description"],
                         "image": properties["image"]
 
@@ -50,14 +53,17 @@ class Suggestions:
         return []
 
     def get_coop_suggestions(self, username, product_ean, amount):
-        friends = self.db.users.find_one({"username": username})["friends"]
+        friends = [user["username"] for user in self.db.users.find()]
         friends_who_have = []
         for friend in friends:
             friend_wishlist = self.db.users.find_one(
                 {"username": friend})["wishlist"]
             if product_ean in friend_wishlist:
                 friends_who_have.append(friend)
-
+        try:
+            friends_who_have.remove(username)
+        except ValueError:
+            pass  # do nothing!
         return {"type": "coop", "friends": friends_who_have}
 
     def ranked_suggestions(self, suggerstions, user_preferences):
