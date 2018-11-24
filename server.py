@@ -5,12 +5,14 @@ from flask_api import FlaskAPI, status
 from collections import defaultdict
 from flask_pymongo import PyMongo
 import json
+from suggestions import Suggestions
 database = {}
 
 
 app = FlaskAPI(__name__)
 app.config["MONGO_URI"] = "mongodb://awesome1:awesome1@ds063789.mlab.com:63789/awesomeproject"
 mongo = PyMongo(app)
+suggestions = Suggestions(mongo.db)
 
 mongo.db.users.delete_many({})
 
@@ -69,15 +71,11 @@ def get_wish_list():
 @app.route("/get_suggestion")
 def get_suggestion():
     user = request.data.get("username")
+    grocery_list = request.data.get("grocery_list")
     x = request.data.get("x_loc")
     y = request.data.get("y_loc")
-    data = mongo.db.users.find({"username": user})
-    # get preferences from db
-    preference = "cheaper"
-    #
-    wishlist = ["334242", "5643534", "4524324"]
-
-    execute_query()
+    user_data = mongo.db.users.find({"username": user})
+    return suggestions.get_ranked_suggestions(user_data['preferences'], grocery_list, (x, y)), status.HTTP_200_OK
 
 
 if __name__ == "__main__":
