@@ -88,5 +88,41 @@ def get_suggestion():
     return suggestions.get_ranked_suggestions(user, user_data['preferences'], grocery_list, (x, y)), status.HTTP_200_OK
 
 
+@app.route("/")
+def index():
+    return """
+
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,400,100italic,400italic' rel='stylesheet' type='text/css'>
+    <script src="http://rohitbsehgal.github.io/HHcomunity-landing-page/js/jquery.particleground.js"></script>
+
+    <link rel="stylesheet" href="//rohitbsehgal.github.io/HHcomunity-landing-page/css/style.css">
+  </head>
+  <body>
+  <!--[if lt IE 8]>
+  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+  <div>
+    <img class="logo" src="https://res.cloudinary.com/hackjunction/image/upload/c_crop,g_custom/v1543101698/zrh7hy4eckluagh9dl4b.gif" />
+    <span class="hackathon-hackers-text">Grocery List Complete</span><br/>
+    <span class="hackathon-hackers-text-under">The smart way to do it. <br/><a style="text-decoration: underline;">Download app</a></span>
+  </div>
+  <script src="http://rohitbsehgal.github.io/HHcomunity-landing-page/js/functions.js"></script>
+  </body>
+</html>    
+"""
+
+
 if __name__ == "__main__":
     app.run(debug=True)
