@@ -6,8 +6,8 @@ from collections import defaultdict
 from flask_pymongo import PyMongo
 import json
 from suggestions import Suggestions
-database = {}
 
+database = {}
 
 '''
 "7311311015304": {"type": "borrow", "location": "Some address", "availability": "6pm-10pm every day", "description": "details from the fridge keeper", "photo": "http://url"},
@@ -43,54 +43,8 @@ mongo.db.users.insert({
     "wishlist": ["6410405082657", "6408641027488"]
 })
 
-mongo.db.fridge.insert({
-    "fridge_id": "ivan",
-    "availability": {
-        "from_hours": 10,
-        "to_hours": 14
-    },
-    "location": "finnland street 12",
-    "products": [
-        {"4001724819608": {
-            "amount": 2,
-            "exp_date": "21-12-2018",
-            "image": "http://fotopotato.com/wp-content/uploads/2016/04/Baby-Carrot-825x510.jpg",
-            "description": "long durability"
-
-        }},
-        {"6411402202208": {
-            "amount": 1,
-            "exp_date": "26-11-2018",
-            "image": "",
-            "description": "will throw out on monday"
-        }}
-
-    ]
-})
-
-mongo.db.fridge.insert({
-    "fridge_id": "johannes",
-    "availability": {
-        "from_hours": 14,
-        "to_hours": 21
-    },
-    "location": "helsinki road 100",
-    "products": [
-        {"6411402202208": {
-            "amount": 1,
-            "exp_date": "21-12-2018",
-            "image": "",
-            "description": "great product, hurry up"
-        }},
-        {"6416046654123": {
-            "amount": 1,
-            "exp_date": "26-11-2018",
-            "image": "",
-            "description": "dont want it anymore"
-        }}
-
-    ]
-})
+mongo.db.fridge.insert({"location": "Otakaari 24, 02150 Espoo", "availability": "6pm-10pm",
+                        "products": {"7311311015304": {"amount": 3, "description": "some spice"}}})
 
 
 @app.route("/add_user", methods=["POST"])

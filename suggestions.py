@@ -35,6 +35,19 @@ class Suggestions:
     def get_borrow_suggestions(self, product_ean, amount):
         sugges = []
         for fridge in self.db.fridge.find():
+            for fridge_product_ean, fridge_product_data in fridge["products"].items():
+                if fridge_product_ean == product_ean:
+                    sugges.append(
+                        {fridge_product_ean:
+                             {
+                                 "type": "borrow",
+                                 "location": fridge["location"],
+                                 "availability": fridge["availability"],
+                                 "description": fridge_product_data["description"]
+                             }})
+        return sugges
+
+        for fridge in self.db.fridge.find():
             for product_dict in fridge["products"]:
                 product = list(product_dict.keys())[0]
                 properties = list(product_dict.values())[0]
@@ -57,7 +70,7 @@ class Suggestions:
         return []
 
     def get_coop_suggestions(self, username, product_ean, amount):
-        friends = [user for user in self.db.users.find()]
+        friends = [user for user in self.db.users.find() if username != user['username']]
         friends_to_buy_the_same = []
         for user in friends:
             if product_ean in user["wishlist"]:
