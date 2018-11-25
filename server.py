@@ -116,7 +116,7 @@ def index():
   <div>
     <img class="logo" src="https://res.cloudinary.com/hackjunction/image/upload/c_crop,g_custom/v1543101698/zrh7hy4eckluagh9dl4b.gif" />
     <span class="hackathon-hackers-text">Grocery List Complete</span><br/>
-    <span class="hackathon-hackers-text-under">The smart way to do it. <br/><a style="text-decoration: underline;">Download app</a></span>
+    <span class="hackathon-hackers-text-under">The smart way to do it. <br/><a href="#" style="text-decoration: underline;">Download app</a></span>
   </div>
   <script src="http://rohitbsehgal.github.io/HHcomunity-landing-page/js/functions.js"></script>
   </body>
